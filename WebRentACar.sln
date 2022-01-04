@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32002.261
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebRentACar", "WebRentACar.csproj", "{4218EB1E-C039-40CF-9232-BF101D5F497E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4218EB1E-C039-40CF-9232-BF101D5F497E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4218EB1E-C039-40CF-9232-BF101D5F497E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4218EB1E-C039-40CF-9232-BF101D5F497E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4218EB1E-C039-40CF-9232-BF101D5F497E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {801C5D16-0C4F-4661-A6E4-C37B8DF046B1}
+	EndGlobalSection
+EndGlobal
