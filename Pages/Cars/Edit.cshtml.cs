@@ -70,7 +70,7 @@ namespace WebRentACar.Pages.Cars
             carToUpdate,
             "Car",
             i => i.Model, i => i.Color,
-            i => i.PlateNumber, i => i.DayPrice, i => i.ProductionDate, i => i.Producer))//?producer
+            i => i.PlateNumber, i => i.DayPrice, i => i.ProductionDate, i => i.ProducerID))//?producer
             {
                 UpdateCarCategories(_context, selectedCategories, carToUpdate);
                 await _context.SaveChangesAsync();
