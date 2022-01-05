@@ -21,7 +21,7 @@ namespace WebRentACar.Pages.Categories
         }
 
         [BindProperty]
-        public CarCategory CarCategory { get; set; }
+        public Category Category { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -30,16 +30,14 @@ namespace WebRentACar.Pages.Categories
                 return NotFound();
             }
 
-            CarCategory = await _context.CarCategory
-                .Include(c => c.Car)
-                .Include(c => c.Category).FirstOrDefaultAsync(m => m.ID == id);
+            Category = await _context.Category.FirstOrDefaultAsync(m => m.ID == id);
 
-            if (CarCategory == null)
+            if (Category == null)
             {
                 return NotFound();
             }
-           ViewData["CarID"] = new SelectList(_context.Car, "ID", "ID");
-           ViewData["CategoryID"] = new SelectList(_context.Set<Category>(), "ID", "ID");
+          // ViewData["CarID"] = new SelectList(_context.Car, "ID", "ID");
+         //  ViewData["CategoryID"] = new SelectList(_context.Set<Category>(), "ID", "ID");
             return Page();
         }
 
@@ -52,7 +50,7 @@ namespace WebRentACar.Pages.Categories
                 return Page();
             }
 
-            _context.Attach(CarCategory).State = EntityState.Modified;
+            _context.Attach(Category).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +58,7 @@ namespace WebRentACar.Pages.Categories
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CarCategoryExists(CarCategory.ID))
+                if (!CategoryExists(Category.ID))
                 {
                     return NotFound();
                 }
@@ -73,9 +71,9 @@ namespace WebRentACar.Pages.Categories
             return RedirectToPage("./Index");
         }
 
-        private bool CarCategoryExists(int id)
+        private bool CategoryExists(int id)
         {
-            return _context.CarCategory.Any(e => e.ID == id);
+            return _context.Category.Any(e => e.ID == id);
         }
     }
 }

@@ -20,7 +20,7 @@ namespace WebRentACar.Pages.Categories
         }
 
         [BindProperty]
-        public CarCategory CarCategory { get; set; }
+        public Category Category { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -29,11 +29,9 @@ namespace WebRentACar.Pages.Categories
                 return NotFound();
             }
 
-            CarCategory = await _context.CarCategory
-                .Include(c => c.Car)
-                .Include(c => c.Category).FirstOrDefaultAsync(m => m.ID == id);
+            Category = await _context.Category.FirstOrDefaultAsync(m => m.ID == id);
 
-            if (CarCategory == null)
+            if (Category == null)
             {
                 return NotFound();
             }
@@ -47,11 +45,11 @@ namespace WebRentACar.Pages.Categories
                 return NotFound();
             }
 
-            CarCategory = await _context.CarCategory.FindAsync(id);
+            Category = await _context.Category.FindAsync(id);
 
-            if (CarCategory != null)
+            if (Category != null)
             {
-                _context.CarCategory.Remove(CarCategory);
+                _context.Category.Remove(Category);
                 await _context.SaveChangesAsync();
             }
 

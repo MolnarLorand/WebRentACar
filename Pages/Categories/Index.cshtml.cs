@@ -19,13 +19,11 @@ namespace WebRentACar.Pages.Categories
             _context = context;
         }
 
-        public IList<CarCategory> CarCategory { get;set; }
+        public IList<Category> Category { get;set; }
 
         public async Task OnGetAsync()
         {
-            CarCategory = await _context.CarCategory
-                .Include(c => c.Car)
-                .Include(c => c.Category).ToListAsync();
+            Category = await _context.Category.ToListAsync();
         }
     }
 }

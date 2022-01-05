@@ -14,22 +14,16 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.CarCategory[0].Car)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CarCategory[0].Category)
+                @Html.DisplayNameFor(model => model.Category[0].CategoryName)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.CarCategory) {
+@foreach (var item in Model.Category) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Car.ID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category.ID)
+                @Html.DisplayFor(modelItem => item.CategoryName)
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
