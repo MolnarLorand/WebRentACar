@@ -10,7 +10,7 @@ using WebRentACar.Models;
 
 namespace WebRentACar.Pages.Cars
 {
-    public class CreateModel : PageModel
+    public class CreateModel : CarCategoriesPageModel
     {
         private readonly WebRentACar.Data.WebRentACarContext _context;
 
@@ -22,6 +22,11 @@ namespace WebRentACar.Pages.Cars
         public IActionResult OnGet()
         {
             ViewData["ProducerID"] = new SelectList(_context.Set<Producer>(), "ID", "ProducerName");
+
+            var car = new Car();
+            car.CarCategories = new List<CarCategory>();
+            PopulateAssignedCategoryData(_context, car);
+
             return Page();
         }
 
@@ -29,17 +34,33 @@ namespace WebRentACar.Pages.Cars
         public Car Car { get; set; }
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(string[] selectedCategories)
         {
-            if (!ModelState.IsValid)
+            var newCar = new Car();
+            if (selectedCategories != null)
             {
-                return Page();
+                newCar.CarCategories = new List<CarCategory>();
+                foreach (var cat in selectedCategories)
+                {
+                    var catToAdd = new CarCategory
+                    {
+                        CategoryID = int.Parse(cat)
+                    };
+                    newCar.CarCategories.Add(catToAdd);
+                }
             }
-
-            _context.Car.Add(Car);
-            await _context.SaveChangesAsync();
-
-            return RedirectToPage("./Index");
+            if (await TryUpdateModelAsync<Car>(
+            newCar,
+            "Car",
+            i => i.Model, i => i.Color,
+            i => i.PlateNumber, i => i.DayPrice, i => i.ProductionDate, i => i.ProducerID))
+            {
+                _context.Car.Add(newCar);
+                await _context.SaveChangesAsync();
+                return RedirectToPage("./Index");
+            }
+            PopulateAssignedCategoryData(_context, newCar);
+            return Page();
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿@page "/"
+﻿@page "/{id:int?}"
 @model WebRentACar.Pages.Cars.IndexModel
 
 @{
@@ -31,12 +31,20 @@
             <th>
                 @Html.DisplayNameFor(model => model.Car[0].Producer.ProducerName)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Car[0].CarCategories)
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Car) {
-        <tr>
+@foreach (var item in Model.CarD.Cars) {
+    string selectedRow = "";
+    if (item.ID == Model.CarID)
+    {
+        selectedRow = "table-success";
+    }
+        <tr class="@selectedRow">
             <td>
                 @Html.DisplayFor(modelItem => item.Model)
             </td>
@@ -54,6 +62,14 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Producer.ProducerName)
+            </td>
+            <td>
+                @{
+                    foreach (var category in item.CarCategories)
+                    {
+                        @category.Category.ID @: @category.Category.CategoryName <br />
+                    }
+                }
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |

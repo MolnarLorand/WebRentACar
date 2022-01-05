@@ -27,7 +27,7 @@ namespace WebRentACar.Pages.Categories
         }
 
         [BindProperty]
-        public CarCategory CarCategory { get; set; }
+        public Category Category { get; set; }
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
@@ -37,7 +37,7 @@ namespace WebRentACar.Pages.Categories
                 return Page();
             }
 
-            _context.CarCategory.Add(CarCategory);
+            _context.Category.Add(Category);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");

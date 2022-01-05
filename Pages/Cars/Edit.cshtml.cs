@@ -11,7 +11,7 @@ using WebRentACar.Models;
 
 namespace WebRentACar.Pages.Cars
 {
-    public class EditModel : PageModel
+    public class EditModel : CarCategoriesPageModel
     {
         private readonly WebRentACar.Data.WebRentACarContext _context;
 
@@ -30,12 +30,19 @@ namespace WebRentACar.Pages.Cars
                 return NotFound();
             }
 
-            Car = await _context.Car.FirstOrDefaultAsync(m => m.ID == id);
+            Car = await _context.Car
+              .Include(b => b.Producer)
+              .Include(b => b.CarCategories).ThenInclude(b => b.Category)
+              .AsNoTracking()
+              .FirstOrDefaultAsync(m => m.ID == id);
 
             if (Car == null)
             {
                 return NotFound();
             }
+
+            PopulateAssignedCategoryData(_context, Car);
+
             ViewData["ProducerID"] = new SelectList(_context.Set<Producer>(), "ID", "ProducerName");
 
             return Page();
@@ -43,35 +50,40 @@ namespace WebRentACar.Pages.Cars
 
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(int? id, string[]
+        selectedCategories)
         {
-            if (!ModelState.IsValid)
+            if (id == null)
             {
-                return Page();
+                return NotFound();
             }
-
-            _context.Attach(Car).State = EntityState.Modified;
-
-            try
+            var carToUpdate = await _context.Car
+            .Include(i => i.Producer)
+            .Include(i => i.CarCategories)
+            .ThenInclude(i => i.Category)
+            .FirstOrDefaultAsync(s => s.ID == id);
+            if (carToUpdate == null)
             {
+                return NotFound();
+            }
+            if (await TryUpdateModelAsync<Car>(
+            carToUpdate,
+            "Car",
+            i => i.Model, i => i.Color,
+            i => i.PlateNumber, i => i.DayPrice, i => i.ProductionDate, i => i.Producer))//?producer
+            {
+                UpdateCarCategories(_context, selectedCategories, carToUpdate);
                 await _context.SaveChangesAsync();
+                return RedirectToPage("./Index");
             }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CarExists(Car.ID))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            
 
-            return RedirectToPage("./Index");
+            UpdateCarCategories(_context, selectedCategories, carToUpdate);
+            PopulateAssignedCategoryData(_context, carToUpdate);
+            return Page();
         }
 
-        private bool CarExists(int id)
+    private bool CarExists(int id)
         {
             return _context.Car.Any(e => e.ID == id);
         }

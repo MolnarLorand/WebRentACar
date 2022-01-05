@@ -11,6 +11,7 @@ namespace WebRentACar.Models
     {
         public int ID { get; set; }
 
+        [Required, StringLength(50, MinimumLength = 3)]
         [Display(Name = "Car Model")]
         public string Model { get; set; }
 
@@ -19,6 +20,7 @@ namespace WebRentACar.Models
         [Display(Name = "Plate Number")]
         public string PlateNumber { get; set; }
 
+        [Range(1, 500)]
         [Column(TypeName = "decimal(6, 2)")]
         public decimal DayPrice { get; set; }
 
@@ -26,6 +28,7 @@ namespace WebRentACar.Models
         public DateTime ProductionDate { get; set; }
 
         public int ProducerID { get; set; }
+
         public Producer Producer { get; set; }
 
         public ICollection<CarCategory> CarCategories { get; set; }

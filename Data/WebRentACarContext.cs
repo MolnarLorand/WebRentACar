@@ -18,6 +18,9 @@ namespace WebRentACar.Data
 
         public DbSet<WebRentACar.Models.Producer> Producer { get; set; }
 
-        public DbSet<WebRentACar.Models.CarCategory> CarCategory { get; set; }
+        //public DbSet<WebRentACar.Models.CarCategory> CarCategory { get; set; }
+
+        public DbSet<WebRentACar.Models.Category> Category { get; set; }
+
     }
 }
