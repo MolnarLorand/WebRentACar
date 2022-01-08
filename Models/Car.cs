@@ -15,7 +15,9 @@ namespace WebRentACar.Models
         [Display(Name = "Car Model")]
         public string Model { get; set; }
 
+        [Required, StringLength(20, MinimumLength = 3)]
         public string Color { get; set; }
+
 
         [Display(Name = "Plate Number")]
         public string PlateNumber { get; set; }
